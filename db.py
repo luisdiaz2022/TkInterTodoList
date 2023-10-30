@@ -20,14 +20,21 @@ cursor.execute("""
 
 conn.commit()
 
+def complete(id):
+    def _complete():
+        print(id)
+
+    return _complete
+
 def render_todos():
     rows = cursor.execute("SELECT * FROM todo").fetchall()
     print(rows)
 
     for i in range(0, len(rows)):
+        id = rows[i][0]
         completed = rows[i][3]
         description = rows[i][2]
-        checkbtn = Checkbutton(frame, text=description, width=42, anchor='w')
+        checkbtn = Checkbutton(frame, text=description, width=42, anchor='w', command=complete(id))
         checkbtn.grid(row=i, column=0, sticky='w')
 
 
